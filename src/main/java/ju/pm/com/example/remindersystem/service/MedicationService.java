@@ -100,7 +100,7 @@ public class MedicationService {
 
             medicationRepository.save(existingMedication);
             return new ApiResponse("Medication was updated successfully", OK);
-        } catch (MedicationNotFoundException | UnsupportedOperationException ex) {
+        } catch (MedicationNotFoundException | MedicationAlreadyExistsException | UnsupportedOperationException ex) {
             return new ApiResponse(ex.getMessage(), BAD_REQUEST);
         }
     }

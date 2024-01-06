@@ -14,8 +14,4 @@ public final class Utils {
             default -> throw new IllegalStateException("Unexpected value: " + medicationName.toLowerCase());
         };
     }
-
-    public static boolean isNotEqual(String str1, String str2) {
-        return !str1.equals(str2);
-    }
 }

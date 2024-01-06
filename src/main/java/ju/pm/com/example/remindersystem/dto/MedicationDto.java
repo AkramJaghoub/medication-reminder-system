@@ -8,5 +8,5 @@ import java.time.LocalTime;
 public class MedicationDto {
 
     private String medicationName;
-    private Integer medicationTime;
+    private int medicationTime;
 }

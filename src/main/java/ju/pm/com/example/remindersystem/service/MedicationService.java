@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static ju.pm.com.example.remindersystem.Util.Utils.getSideEffectsBasedOnMedicationName;
-import static ju.pm.com.example.remindersystem.Util.Utils.isNotEqual;
 import static ju.pm.com.example.remindersystem.model.Status.TAKEN;
 import static org.springframework.http.HttpStatus.*;
 
@@ -82,7 +81,12 @@ public class MedicationService {
             Medication existingMedication = medicationRepository.findById(medicationId)
                     .orElseThrow(() -> new MedicationNotFoundException("Medication with id [" + medicationId + "] was not found"));
 
-            if (isNotEqual(medDto.getMedicationName(), existingMedication.getMedicationName()) &&
+            if (Objects.equals(medDto.getMedicationName(), existingMedication.getMedicationName()) &&
+                    Objects.equals(medDto.getMedicationTime(), existingMedication.getMedicationTime())) {
+                throw new UnsupportedOperationException("You must change one field at least to proceed!");
+            }
+
+            if (!Objects.equals(medDto.getMedicationName(), existingMedication.getMedicationName()) &&
                     medicationRepository.existsByMedicationName(medDto.getMedicationName())) {
                 throw new MedicationAlreadyExistsException("A medication with with the same name already exists!");
             }
@@ -96,7 +100,7 @@ public class MedicationService {
 
             medicationRepository.save(existingMedication);
             return new ApiResponse("Medication was updated successfully", OK);
-        } catch (MedicationNotFoundException ex){
+        } catch (MedicationNotFoundException | UnsupportedOperationException ex) {
             return new ApiResponse(ex.getMessage(), BAD_REQUEST);
         }
     }

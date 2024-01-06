@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to show side effects modal
     function showSideEffectsModal(sideEffectsDescription) {
+        clearMessages(); // Clear messages before showing the modal
         const modalBody = document.querySelector('#sideEffectsModal .modal-body');
         modalBody.textContent = sideEffectsDescription || 'No side effects description available.';
         const sideEffectsModal = new bootstrap.Modal(document.getElementById('sideEffectsModal'));
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showAdherenceAnalysis(medWidget) {
+        clearMessages(); // Clear messages before showing the modal
         const medId = medWidget.getAttribute('data-med-id');
         const medicationName = medWidget.getAttribute('data-medication-name');
         const medicationTime = parseInt(medWidget.getAttribute('data-medication-time')); // Parse as an integer
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showUpdateForm(medWidget) {
+        clearMessages(); // Clear messages before showing the modal
         const medId = medWidget.getAttribute('data-med-id');
         const medicationName = medWidget.getAttribute('data-medication-name');
         const medicationTime = medWidget.getAttribute('data-medication-time');
@@ -203,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
     menuIcons.forEach(icon => {
         icon.addEventListener('click', function (event) {
             event.stopPropagation();
+            clearMessages(); // Clear messages before showing the dropdown
             const medId = this.getAttribute('data-med-id');
             const menuDropdown = document.getElementById('menu-dropdown-' + medId);
             menuDropdown.style.display = (menuDropdown.style.display === 'none' || !menuDropdown.style.display) ? 'block' : 'none';
@@ -228,3 +232,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function clearMessages() {
+    // Clear error messages
+    const errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach(errorDiv => {
+        errorDiv.style.display = 'none';
+    });
+
+    // Clear success messages
+    const successAlert = document.getElementById('successAlert');
+    if (successAlert) {
+        successAlert.style.display = 'none';
+    }
+}

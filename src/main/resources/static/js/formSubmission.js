@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', function () {
             medicationTime: document.getElementById('medicationTime').value,
         };
 
+        $('#medicationModal').on('show.bs.modal', function () {
+            clearMessages();
+        });
+
         fetch('/rms/patient/dashboard/add-medication', {
             method: 'POST',
             headers: {
@@ -147,4 +151,18 @@ function createMedicationWidget(med, id) {
         <p><strong>Added:</strong> ${formattedPostDate}</p>    
 `;
     return medWidget;
+}
+
+function clearMessages() {
+    // Clear error messages
+    const errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach(errorDiv => {
+        errorDiv.style.display = 'none';
+    });
+
+    // Clear success message
+    const successAlert = document.getElementById('successAlert');
+    if (successAlert) {
+        successAlert.style.display = 'none';
+    }
 }

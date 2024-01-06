@@ -1,0 +1,146 @@
+:root {
+    --t-color: #5A8349F9;
+    --t-color-alt: rgba(90, 131, 73, 0.37);
+    --bs-link-hover-color: #012e6c;
+}
+
+.hero {
+    width: 100%;
+    min-height: 100vh;
+    background-color: transparent;
+    color: #525252;
+    margin-top: -4rem;
+}
+
+.separator {
+    height: 2px; /* Thickness of the line */
+    background-color: lightslategrey; /* Color of the line */
+    margin: 8px 0; /* Space above and below the line */
+}
+
+
+.dialog-form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 50px auto; /* Center the form */
+    width: 65%; /* Set maximum width */
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: #dc3545;
+}
+
+#cancelUpdate, #saveChangesButton {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.menu-container {
+    top: 42px;
+    right: 12px;
+}
+
+.top {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    width: 370px;
+    font-size: 0.9rem;
+    margin-right: 30px;
+    color: #555;
+    margin-top: -0.2rem;
+}
+
+.no-border {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent;
+    margin-bottom: 0.5rem;
+    width: auto;
+}
+
+.article-container {
+    border: 2px solid #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background-color: #FAF9F6;
+}
+
+.header-container {
+    display: flex; /* Use flexbox to layout header contents */
+    justify-content: space-between; /* Align h3 to the left and SVG to the right */
+    align-items: center; /* Align items vertically in the center */
+}
+
+.bi.bi-plus:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Change the color as needed */
+    cursor: pointer; /* Change the cursor to signify clickable element */
+}
+
+.bi.bi-plus {
+    margin-left: auto; /* This will push the SVG to the far right */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.filter-banner {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.no-articles {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #555;
+}
+
+.ad-h3{
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 5px;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.875em;
+    display: none; /* Hidden by default */
+    margin-top: 5px;
+}
+
+.display-message {
+    display: none;
+    position: fixed;
+    top: 1.325rem;
+    left: 52%;
+    transform: translateX(-50%);
+    z-index: 1050;
+    padding: 5px 10px;
+    align-items: center;
+    gap: 5px;
+}
+
+.modal-dialog{
+    margin-right: 48rem;
+}

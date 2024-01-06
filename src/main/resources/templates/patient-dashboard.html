@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!--=============== FAVICON ===============-->
+    <link href="/main/img/tero.png" rel="icon" type="image/x-icon">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--=============== CSS ===============-->
+    <link href="/css/widgets.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/main/css/styles.css" rel="stylesheet">
+
+    <title>Reminder Medication System</title>
+</head>
+<body>
+
+<main class="main">
+    <section class="home container" id="home">
+        <div class="home__content">
+            <div class="home__group">
+                <div class="hero">
+                    <div class="article-container">
+                        <div class="header-container">
+                            <h3 class="ad-h3">Medications</h3>
+                            <div class="plus-icon-container" data-bs-toggle="modal" data-bs-target="#medicationModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor"
+                                     class="bi bi-plus" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div id="successAlert" class="alert alert-success display-message" role="alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                                 class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16" style="flex-shrink: 0;">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+                            </svg>
+                            <p id="successMessage" style="margin-top: 1rem;"></p>
+                        </div>
+
+                        <!-- Bootstrap Modal -->
+                        <!-- Bootstrap 5 Modal -->
+                        <div class="modal fade" id="sideEffectsModal" tabindex="-1" aria-labelledby="modalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalLabel">Medication Side Effects</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Content will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator"></div>
+                        <div class="card-body">
+                            <div class="articles">
+                                <div th:if="${#lists.isEmpty(medications)}" class="no-meds">No Medications
+                                    available.
+                                </div>
+                                <div th:each="med : ${medications}" class="med-widget"
+                                     th:data-medication-name="${med.medicationName}"
+                                     th:data-medication-time="${med.medicationTime}"
+                                     th:data-med-id="${med.id}"
+                                     th:data-side-effects="${#strings.escapeJava(med.sideEffectsDescription)}"
+                                     th:data-times-taken="${med.timesTaken}"
+                                     th:data-times-missed="${med.timesMissed}">
+
+                                    <span class="side-effects-data" style="display: none;" th:id="'side-effects-data-' + ${med.id}" th:text="${med.sideEffectsDescription}"></span>
+
+                                <div th:id="'menu-icon-' + ${med.id}" class="menu-icon"
+                                         th:data-med-id="${med.id}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                        </svg>
+                                    </div>
+                                    <div th:id="'menu-dropdown-' + ${med.id}" class="menu-container"
+                                         style="display: none;">
+                                        <a class="dropdown-item update-option"
+                                           href="#" th:data-med-id="${med.id}">Update</a>
+                                        <a class="dropdown-item adherence-option" href="#"
+                                           th:data-med-id="${med.id}"
+                                           th:data-action="'View Adherence'">View Adherence</a>
+                                        <a class="dropdown-item side-effects-option" href="#"
+                                           data-med-id="${med.id}">Side Effects</a>
+                                    </div>
+                                    <h4 class="med-name" style="margin-bottom: 1.5rem;" th:text="${med.medicationName}">Medication
+                                        Name</h4>
+                                    <p>
+                                        <strong>Frequency:</strong>
+                                        <span class="med-time" th:text="'Every ' + ${med.medicationTime} + ' hours'">Every X hours</span>
+                                    </p>
+                                    <br>
+                                    <p><strong>Added:</strong> <span
+                                            th:text="${#temporals.format(med.postDate, 'yyyy-MM-dd HH:mm')}">Date Added</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal fade" id="medicationModal" tabindex="-1" aria-labelledby="medicationModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="medicationModalLabel">Add Medication</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="medicationForm">
+                                        <div class="mb-3">
+                                            <label for="medicationName" class="form-label">Medication Name</label>
+                                            <select name="medicationName" class="form-select" id="medicationName"
+                                                    required>
+                                                <option value="digoxin">digoxin</option>
+                                                <option value="exforge hct">exforge hct</option>
+                                                <option value="metformin">metformin</option>
+                                                <option value="vastor">vastor</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="medicationTime" class="form-label">Medication Time</label>
+                                            <select name="medicationTime" class="form-select" id="medicationTime"
+                                                    required>
+                                                <option value="4">Every 4 hours</option>
+                                                <option value="8">Every 8 hours</option>
+                                                <option value="12">Every 12 hours</option>
+                                                <option value="24">Every 24 hours</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="adherenceModal" tabindex="-1" aria-labelledby="adherenceModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="adherenceModalLabel">Medication Adherence Analysis</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="adherenceModalBody"> <!-- Add this element to display the chart -->
+                            <!-- The chart generated by JavaScript will be inserted here -->
+                        </div>
+                        <p style="display: none"><strong>Times Taken:</strong> <span id="timesTaken">Loading...</span></p>
+                        <p style="display: none"><strong>Times Missed:</strong> <span id="timesMissed">Loading...</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Update Medication Modal -->
+        <div class="modal fade" id="updateMedicationModal" tabindex="-1" aria-labelledby="updateMedicationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateMedicationModalLabel">Update Medication</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="updateMedicationForm">
+                            <div class="mb-3">
+                                <label for="updateMedicationName" class="form-label">Medication Name</label>
+                                <select name="medicationName" class="form-select" id="updateMedicationName" required>
+                                    <!-- Populate with options as in the original form -->
+                                    <option value="digoxin">digoxin</option>
+                                    <option value="exforge hct">exforge hct</option>
+                                    <option value="metformin">metformin</option>
+                                    <option value="vastor">vastor</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updateMedicationTime" class="form-label">Medication Time</label>
+                                <select name="medicationTime" class="form-select" id="updateMedicationTime" required>
+                                    <!-- Populate with options as in the original form -->
+                                    <option value="4">Every 4 hours</option>
+                                    <option value="8">Every 8 hours</option>
+                                    <option value="12">Every 12 hours</option>
+                                    <option value="24">Every 24 hours</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="medicationReminderModal" tabindex="-1"
+             aria-labelledby="medicationReminderModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="medicationReminderModalLabel">Medication Reminder</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>It's time to take your medication: <span id="medicationNameModal"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="missedButton">I Missed It</button>
+                        <button type="button" class="btn btn-primary" id="takenButton">I've Taken It</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<a class="scrollup" href="#" id="scroll-up">
+    <i class='bx bx-up-arrow-alt scrollup__icon'></i>
+</a>
+
+<script src="/main/js/main.js" defer></script>
+<script src="/js/formSubmission.js" defer></script>
+<script src="/js/notification.js"></script>
+<script src="/js/menuContainer.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

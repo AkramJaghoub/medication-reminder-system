@@ -26,7 +26,7 @@ public class Medication {
     private int medicationTime;
     private int timesTaken;
     private int timesMissed;
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "TEXT")
     private String sideEffectsDescription;
 
     public Medication toEntity(MedicationDto medDto) {
